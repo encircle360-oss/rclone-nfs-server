@@ -1,0 +1,29 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+stages:
+  - package
+
+docker-build:
+  stage: package
+  only:
+    - master
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker pull $CONTAINER_IMAGE:latest || true
+    - docker build --cache-from $CONTAINER_IMAGE:latest -t $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA:0:8} -t $CI_REGISTRY_IMAGE:latest .
+    - docker push $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA:0:8}
+
+docker-build-staging:
+  stage: package
+  only:
+    - staging
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker pull $CONTAINER_IMAGE:staging || true
+    - docker build --cache-from $CONTAINER_IMAGE:staging -t $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA:0:8} -t $CI_REGISTRY_IMAGE:staging .
+    - docker push $CI_REGISTRY_IMAGE:staging
+    - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA:0:8}
