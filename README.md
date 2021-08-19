@@ -1,7 +1,7 @@
-## Rclone-NFS-Server
+# Rclone-NFS-Server
 This docker image provides you with a small [nfs-server](https://github.com/ehough/docker-nfs-server) that exposes your [rclone](https://rclone.org) remote. You can then access all your rclones remote files via NFS.
 
-### Quickstart
+## Quickstart
 Be aware that nfs-server needs some special privileges to be able to start and also rclone needs privileges to be able to mount within a container.
 So you must run the container in privileged mode or provide the correct system capabilites. So be aware to run this container in a secure environment since it has more privileges than normal.
 
@@ -27,17 +27,17 @@ mkdir -p /mnt/test
 sudo mount -t nfs 10.10.10.10:/ /mnt/test
 ```
 
-### Customization
+## Customization
 You can customize many settings in the underlying nfs-server. For example it's also possible to restrict the IP addresses that are allowed to connect via NFS exports or to disable or enable specific NFS versions. In the default the container will spawn both simultaniously, NFSv4 and NFSv3.
 
 You can find all customization options [here](https://github.com/ehough/docker-nfs-server).
 
-### Contribute
+## Contribute
 Feel free to contribute to this open source project. Just fork, change and create a pull or merge request to this repository.
 
-#### Ideas & Improvements
+### Ideas & Improvements
 * Make rclone mount configurable
 * Multiple rcloune mounts and nfs exports
 
-### Credits
+## Credits
 This is open source software by [encircle360](https://encircle360.com). Use on your own risk and for personal use. If you need support or consultancy just contact us.
