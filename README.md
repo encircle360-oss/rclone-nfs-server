@@ -14,7 +14,16 @@ sudo apt-get install nfs-common
 ```
 
 
-If you just want to use NFSv4 which only needs tcp port `2049` you can run the following:
+If you just want to use NFSv4 which only needs tcp port `2049` you can run the following. Your rclone.conf file in the directory you mount into the docker container _needs to contain_ a remote with the name `remote`. Only this remote will be mounted and exposed via NFS.
+
+```
+[remote] # the name here is important
+type = crypt
+remote = gdrive:storage/rclone-path
+filename_encryption = standard
+directory_name_encryption = true
+... further settings
+```
 
 ```
 docker run -v /path/to/rclone/confdir:/rclone/config -p 0.0.0.0:2049:2049 --privileged registry.gitlab.com/encircle360-oss/rclone-nfs-server:latest
